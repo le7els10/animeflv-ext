@@ -1,0 +1,43 @@
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: #31344b;
+  width: 360px;
+}
+
+h1 {
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0;
+}
+
+hr {
+  margin: 10px 0;
+}
+
+.popup {
+  background-color: #e6e7ee;
+  padding: 1rem;
+}
+
+.list-item {
+  display: grid;
+  grid-template-columns: 1fr 10px;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.list-item-link,
+.list-item-delete {
+  color: #31344b;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.list-item-link span {
+  font-weight: bold;
+}
