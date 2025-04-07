@@ -5,7 +5,7 @@
 body {
   margin: 0;
   padding: 0;
-  color: #31344b;
+  color: #fff;
   width: 360px;
 }
 
@@ -15,29 +15,53 @@ h1 {
   padding: 0;
 }
 
+.popup-title {
+  display: flex;
+}
+
 hr {
   margin: 10px 0;
 }
 
 .popup {
-  background-color: #e6e7ee;
+  background-color: #2f343a;
   padding: 1rem;
 }
 
 .list-item {
+  font-size: 0.8rem;
   display: grid;
   grid-template-columns: 1fr 10px;
+  grid-gap: 10px;
   justify-content: space-between;
   margin: 5px 0;
 }
 
+.list-item--empty {
+  text-align: center;
+  display: block;
+}
+
+.list-item--empty a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.list-item-link:hover,
+.list-item-delete:hover {
+  color: #fff;
+}
+
 .list-item-link,
 .list-item-delete {
-  color: #31344b;
+  color: #a7a9aa;
   text-decoration: none;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .list-item-link span {
+  color: #fff;
   font-weight: bold;
 }

@@ -1,12 +1,17 @@
 const baseUrl = 'https://www3.animeflv.net/ver/';
 const currentUrl = window.location.href;
 
+const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 const linkToJson = (link) => {
     let episode = link.split('-');
     episode = episode[episode.length - 1];
     let animeName = link.split('/ver/')[1]
     animeName = animeName.split('-');
     animeName = animeName.slice(0, -1).join(' ');
+    animeName = capitalizeFirstLetter(animeName);
 
     return {
         title: animeName,
@@ -47,7 +52,10 @@ const getAnimeData = () => {
 chrome.runtime.onMessage.addListener((mensaje, sender, enviarRespuesta) => {
     if (mensaje.type === "getAnimeData") {
         const datos = getAnimeData();
-        enviarRespuesta(datos);
+        enviarRespuesta({
+            animesData: datos,
+            isInAnimeFlvSite: currentUrl.includes(baseUrl),
+        });
     }
 
     if (mensaje.type === "removeAnime") {
