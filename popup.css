@@ -28,6 +28,13 @@ hr {
   padding: 1rem;
 }
 
+.list {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 10px;
+}
+
 .list-item {
   font-size: 0.8rem;
   display: grid;
@@ -76,4 +83,19 @@ hr {
 .list-item-link span {
   color: #fff;
   font-weight: bold;
+}
+
+/* Para navegadores basados en WebKit (Chrome, Safari, Edge) */
+.list::-webkit-scrollbar {
+  width: 6px; /* ancho del scroll vertical */
+}
+
+.list::-webkit-scrollbar-track {
+  background: #fff; /* color del fondo del track */
+  border-radius: 10px;
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: #a7a9aa; /* color del scroll */
+  border-radius: 10px;
 }
