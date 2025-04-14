@@ -40,10 +40,16 @@ const updateAnimeLink = (data) => {
     let animeLinks = JSON.parse(localStorage.getItem('animeLinks')) || [];
     const index = animeLinks.findIndex((link) => link.title === data.title);
     if (index !== -1) {
-        animeLinks[index] = data;
-        localStorage.setItem('animeLinks', JSON.stringify(animeLinks));
+        animeLinks = removeAnimeLink(animeLinks, index);
+        const organizedLinks = organizeLinks(animeLinks, data);
+
+        localStorage.setItem('animeLinks', JSON.stringify(organizedLinks));
     }
 };
+
+const removeAnimeLink = (animeLinks, index) => {
+    return animeLinks.filter((link, i) => i != index)
+}
 
 const existAnimeLink = (animeTitle) => {
     return new Promise((resolve) => {
@@ -70,7 +76,7 @@ chrome.runtime.onMessage.addListener((mensaje, sender, enviarRespuesta) => {
 
     if (mensaje.type === "removeAnime") {
         let animeLinks = JSON.parse(localStorage.getItem('animeLinks')) || [];
-        animeLinks = animeLinks.filter((link, i) => i != mensaje.index);
+        animeLinks = removeAnimeLink(animeLinks, mensaje.index);
         localStorage.setItem('animeLinks', JSON.stringify(animeLinks));
         enviarRespuesta({ status: 'success' });
     }

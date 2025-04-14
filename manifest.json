@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Tracker animeflv episodes",
+  "name": "animeflv episodes link saver",
   "version": "1.4.0",
-  "description": "A Chrome extension to track episodes on anime flv",
+  "description": "A Chrome extension to save the episodes links on animeflv",
   "permissions": ["storage", "tabs", "scripting"],
   "host_permissions": ["<all_urls>"],
   "content_scripts": [
