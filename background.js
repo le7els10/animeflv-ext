@@ -24,6 +24,7 @@ const organizeLinks = (links, newAnime) => {
     let organizedLinks = links;
 
     if (links.length > 0) {
+        organizedLinks = removeAnimeLink(organizedLinks, newAnime.title);
         organizedLinks.unshift(newAnime);
     }
 
@@ -31,29 +32,29 @@ const organizeLinks = (links, newAnime) => {
 }
 
 const saveAnimeLink = (data) => {
-    let animeLinks = JSON.parse(localStorage.getItem('animeLinks')) || [];
+    let animeLinks = getAnimeData();
+    animeLinks.push(data);
     const organizedLinks = organizeLinks(animeLinks, data);
     localStorage.setItem('animeLinks', JSON.stringify(organizedLinks));
 };
 
 const updateAnimeLink = (data) => {
-    let animeLinks = JSON.parse(localStorage.getItem('animeLinks')) || [];
+    let animeLinks = getAnimeData();
     const index = animeLinks.findIndex((link) => link.title === data.title);
     if (index !== -1) {
-        animeLinks = removeAnimeLink(animeLinks, index);
+        animeLinks[index] = data;
         const organizedLinks = organizeLinks(animeLinks, data);
-
         localStorage.setItem('animeLinks', JSON.stringify(organizedLinks));
     }
 };
 
-const removeAnimeLink = (animeLinks, index) => {
-    return animeLinks.filter((link, i) => i != index)
+const removeAnimeLink = (animeLinks, title) => {
+    return animeLinks.filter((link, i) => link.title != title)
 }
 
 const existAnimeLink = (animeTitle) => {
     return new Promise((resolve) => {
-        const animeLinks = JSON.parse(localStorage.getItem('animeLinks')) || [];
+        const animeLinks = getAnimeData();
         const exists = animeLinks.some((link) => link.title === animeTitle);
         resolve(exists);
     });
@@ -75,8 +76,8 @@ chrome.runtime.onMessage.addListener((mensaje, sender, enviarRespuesta) => {
     }
 
     if (mensaje.type === "removeAnime") {
-        let animeLinks = JSON.parse(localStorage.getItem('animeLinks')) || [];
-        animeLinks = removeAnimeLink(animeLinks, mensaje.index);
+        let animeLinks = getAnimeData();
+        animeLinks = removeAnimeLink(animeLinks, mensaje.title);
         localStorage.setItem('animeLinks', JSON.stringify(animeLinks));
         enviarRespuesta({ status: 'success' });
     }
