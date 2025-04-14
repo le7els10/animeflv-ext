@@ -1,9 +1,9 @@
 const animeListContainer = document.getElementById('anime-list');
 
-const removeAnime = async (link) => {
+const removeAnime = async (index) => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-    chrome.tabs.sendMessage(tab.id, { type: "removeAnime", url: link }, () => {
+    chrome.tabs.sendMessage(tab.id, { type: "removeAnime", index }, () => {
         loadAnimeList();
     })
 
@@ -18,7 +18,7 @@ const generateHtmlListItem = (anime) => {
                 ${anime.title}
                 <span> Capitulo ${anime.episode} </span>
             </a>
-            <div class="list-item-delete" link="${anime.link}">
+            <div class="list-item-delete" index="${anime.index}">
                 <i class="fa-solid fa-trash"></i>
             </div>
         </div>
@@ -45,7 +45,11 @@ const loadAnimeList = async () => {
                 return;
             }
 
-            animesData.forEach((anime) => {
+            animesData.forEach((anime, index) => {
+                anime = {
+                    ...anime,
+                    index
+                }
                 const animeItem = generateHtmlListItem(anime);
                 animeListContainer.appendChild(animeItem);
             });
@@ -53,8 +57,8 @@ const loadAnimeList = async () => {
             const deleteButtons = document.querySelectorAll('.list-item-delete');
             deleteButtons.forEach((button) => {
                 button.addEventListener('click', async (event) => {
-                    const link = event.currentTarget.getAttribute('link');
-                    removeAnime(link);
+                    const index = event.currentTarget.getAttribute('index');
+                    removeAnime(index);
                 });
             });
         });
