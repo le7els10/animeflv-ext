@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "animeflv episodes link saver",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "A Chrome extension to save the episodes links on animeflv",
   "permissions": ["storage", "tabs", "scripting"],
   "host_permissions": ["<all_urls>"],

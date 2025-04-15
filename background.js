@@ -36,6 +36,7 @@ const saveAnimeLink = (data) => {
     animeLinks.push(data);
     const organizedLinks = organizeLinks(animeLinks, data);
     localStorage.setItem('animeLinks', JSON.stringify(organizedLinks));
+    return organizedLinks;
 };
 
 const updateAnimeLink = (data) => {
@@ -45,6 +46,7 @@ const updateAnimeLink = (data) => {
         animeLinks[index] = data;
         const organizedLinks = organizeLinks(animeLinks, data);
         localStorage.setItem('animeLinks', JSON.stringify(organizedLinks));
+        return organizedLinks;
     }
 };
 
