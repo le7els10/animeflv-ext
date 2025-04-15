@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "animeflv episodes link saver",
-  "version": "1.4.2",
-  "description": "A Chrome extension to save the episodes links on animeflv",
+  "name": "Anime episodes link saver",
+  "version": "1.5.0",
+  "description": "A Chrome extension to save the episodes links on animeflv and JKanime",
   "permissions": ["storage", "tabs", "scripting"],
   "host_permissions": ["<all_urls>"],
   "content_scripts": [
@@ -13,7 +13,7 @@
     }
   ],
   "icons": {
-    "128": "af.png"
+    "128": "totoro.png"
   },
   "action": {
     "default_popup": "popup.html"

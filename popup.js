@@ -35,8 +35,8 @@ const loadAnimeList = async () => {
     }, () => {
         chrome.tabs.sendMessage(tab.id, { type: "getAnimeData" }, (data) => {
             if (data == null) return
-            const { animesData, isInAnimeFlvSite } = data;
-            const emptyMessage = isInAnimeFlvSite ? 'No hay animes guardados' : 'Debe usar esta extensión en <a href="https://www3.animeflv.net/" target="_blank" >animeflv.net</a> únicamente';
+            const { animesData, isUrlAllowed } = data;
+            const emptyMessage = isUrlAllowed ? 'No hay animes guardados' : 'Debe usar esta extensión en <a href="https://www3.animeflv.net/" target="_blank" >animeflv.net</a> ó <a href="https://jkanime.net/" target="_blank" >jkanime.net</a> únicamente';
 
             animeListContainer.innerHTML = ''; // Clear the container before loading new data
 

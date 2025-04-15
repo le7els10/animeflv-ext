@@ -1,23 +1,90 @@
-const baseUrl = 'https://www3.animeflv.net/ver/';
+const supportedBaseUrls = [
+    'https://www3.animeflv.net/ver/',
+    'https://jkanime.net/'
+]
+
+const ANIMEFLV = 0
+const JKANIME = 1
 const currentUrl = window.location.href;
+
+const getUrlFrom = () => {
+    const urlFrom = supportedBaseUrls.findIndex((baseUrl) => currentUrl.includes(baseUrl));
+    if (urlFrom == -1) return null
+
+    return urlFrom
+}
+
+const isSupportedUrl = () => {
+    let isSupported = getUrlFrom();
+
+    if (isSupported == null) return false
+
+    switch (isSupported) {
+
+        case ANIMEFLV:
+            return true;
+            break;
+
+        case JKANIME:
+            let isValidUrl = currentUrl.split(supportedBaseUrls[1]);
+            let JKAnimeUrl = isValidUrl[1];
+
+            if (JKAnimeUrl.trim().length == 0) return false
+            JKAnimeUrl = JKAnimeUrl.split('/');
+
+            if (JKAnimeUrl[1].trim().length == 0) return false
+
+            return true
+            break;
+
+        default:
+            return false
+            break;
+    }
+}
 
 const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 const linkToJson = (link) => {
-    let episode = link.split('-');
-    episode = episode[episode.length - 1];
-    let animeName = link.split('/ver/')[1]
-    animeName = animeName.split('-');
-    animeName = animeName.slice(0, -1).join(' ');
-    animeName = capitalizeFirstLetter(animeName);
+    let episode, animeName
 
-    return {
-        title: animeName,
-        link,
-        episode,
-    };
+    switch (getUrlFrom()) {
+        case ANIMEFLV:
+            episode = link.split('-');
+            episode = episode[episode.length - 1];
+            animeName = link.split('/ver/')[1]
+            animeName = animeName.split('-');
+            animeName = animeName.slice(0, -1).join(' ');
+            animeName = capitalizeFirstLetter(animeName);
+
+            return {
+                title: animeName,
+                link,
+                episode,
+            };
+            break;
+
+        case JKANIME:
+            episode = link.split('/');
+            episode = episode[episode.length - 2];
+
+            animeName = link.replace(supportedBaseUrls[JKANIME], '');
+            animeName = animeName.split('/')[0];
+            animeName = animeName.replaceAll('-', ' ');
+
+            animeName = capitalizeFirstLetter(animeName);
+
+            return {
+                title: animeName,
+                link,
+                episode,
+            };
+            break
+    }
+
+
 };
 
 const organizeLinks = (links, newAnime) => {
@@ -73,7 +140,7 @@ chrome.runtime.onMessage.addListener((mensaje, sender, enviarRespuesta) => {
         const datos = getAnimeData();
         enviarRespuesta({
             animesData: datos,
-            isInAnimeFlvSite: currentUrl.includes(baseUrl),
+            isUrlAllowed: getUrlFrom() !== null,
         });
     }
 
@@ -88,10 +155,9 @@ chrome.runtime.onMessage.addListener((mensaje, sender, enviarRespuesta) => {
 });
 
 
-if (currentUrl && currentUrl.includes(baseUrl)) {
+if (currentUrl && isSupportedUrl()) {
     const animeData = linkToJson(currentUrl);
     const exist = existAnimeLink(animeData.title);
-
 
     exist.then((exists) => {
         if (!exists) {

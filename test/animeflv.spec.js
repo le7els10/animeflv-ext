@@ -76,4 +76,8 @@ describe('background.js', () => {
         expect(firstAnime.title).toBe(animeTesting.title);
     })
 
+    it('Should capitalize the first letter of a string', () => {
+        const result = capitalizeFirstLetter("naruto");
+        expect(result).toBe("Naruto");
+    });
 });
