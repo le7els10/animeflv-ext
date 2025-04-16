@@ -1,4 +1,4 @@
-# Tracker animeflv episodes
+# Anime episodes link saver
 
 Una extensión de Chrome para saber en que episodio estás del anime que estás viendo en [AnimeFLV](https://www3.animeflv.net/) ó [JKanime](https://jkanime.net/)
 
