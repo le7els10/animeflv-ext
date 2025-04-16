@@ -41,9 +41,12 @@ describe('background.js', () => {
     })
 
     it('Should update an anime link', () => {
+        const originalAnimeData = animeLinks.find((link) => link.title === animeTesting.title);
         const linksUpdated = updateAnimeLink(animeTesting);
         const foundAnime = linksUpdated.find((link) => link.title === animeTesting.title);
-        expect(foundAnime.episode).toBe(animeTesting.episode);
+
+        expect(foundAnime).not.toEqual(originalAnimeData);
+        expect(foundAnime).toEqual(animeTesting);
     })
 
     it('Should remove an anime link', () => {
